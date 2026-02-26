@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - GeoSpy.ai</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        </div>
+        <a href="/" style="text-decoration: none; color: inherit;">GeoSpy<span>.ai</span></a>
+      </div>
+      <div class="nav-links">
+        <a href="#how">Hoe het werkt</a>
+        <a href="#features">Features</a>
+        <a href="/" class="btn-primary" style="text-decoration: none;">Probeer nu</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    @RenderBody()
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+      GeoSpy<span>.ai</span>
+    </div>
+    <p class="copy">© 2026 GeoSpy.ai — AI-aangedreven locatiebepaling</p>
+  </footer>
+
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

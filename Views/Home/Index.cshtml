@@ -1,0 +1,249 @@
+@{
+    ViewData["Title"] = "GeoSpy.ai — AI GeoGuesser";
+}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="badge">⚡ Aangedreven door AI</div>
+    <h1>Upload een foto.<br><span class="text-gradient">Ontdek de locatie.</span></h1>
+    <p>Onze AI analyseert je foto en bepaalt waar ter wereld deze is genomen. Van straatbeelden tot landschappen — wij vinden het.</p>
+
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="photoInput" accept="image/jpeg,image/jpg,image/png,image/webp" style="display: none;" />
+      <div class="upload-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <h3>Sleep je foto hierheen</h3>
+      <p class="sub">of klik om te uploaden • JPG, PNG, WebP</p>
+      <button class="upload-btn" id="uploadBtn">Foto uploaden →</button>
+    </div>
+
+    <div id="loadingIndicator" style="display: none; margin-top: 24px;">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--primary);">
+        <div class="spinner"></div>
+        <span>Foto wordt geanalyseerd...</span>
+      </div>
+    </div>
+
+    <div id="resultContainer" style="display: none; margin-top: 48px;"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-title">
+    <h2>Hoe het werkt</h2>
+    <p>Drie simpele stappen naar de locatie</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num text-gradient">01</div>
+      <div class="step-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <h3>Upload</h3>
+      <p>Upload een foto van een willekeurige plek op aarde.</p>
+    </div>
+    <div class="step">
+      <div class="step-num text-gradient">02</div>
+      <div class="step-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <h3>AI Analyse</h3>
+      <p>Onze AI analyseert landschap, gebouwen, tekens en meer.</p>
+    </div>
+    <div class="step">
+      <div class="step-num text-gradient">03</div>
+      <div class="step-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <h3>Locatie</h3>
+      <p>Krijg de geschatte locatie met uitleg op de kaart.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features-section">
+  <div class="section-title">
+    <h2>Waarom <span class="text-gradient">GeoSpy.ai</span>?</h2>
+  </div>
+  <div class="features">
+    <div class="feature">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+      <h3>Nauwkeurige locatiebepaling</h3>
+      <p>Geavanceerde beeldherkenning analyseert honderden visuele aanwijzingen.</p>
+    </div>
+    <div class="feature">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <h3>Razendsnel</h3>
+      <p>Resultaat binnen seconden dankzij geoptimaliseerde AI-modellen.</p>
+    </div>
+    <div class="feature">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+      <h3>Wereldwijd bereik</h3>
+      <p>Van Tokyo tot Tilburg — onze AI kent elke hoek van de wereld.</p>
+    </div>
+    <div class="feature">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+      <h3>Slimme uitleg</h3>
+      <p>Niet alleen waar, maar ook waarom de AI denkt dat het daar is.</p>
+    </div>
+  </div>
+</section>
+
+@section Scripts {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const uploadArea = document.getElementById('uploadArea');
+  const photoInput = document.getElementById('photoInput');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const resultContainer = document.getElementById('resultContainer');
+
+  // Click handlers
+  uploadArea.addEventListener('click', () => photoInput.click());
+  uploadBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    photoInput.click();
+  });
+
+  // Drag and drop
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = 'hsl(160, 70%, 50%, 0.5)';
+  });
+
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.style.borderColor = 'var(--border)';
+  });
+
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = 'var(--border)';
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleFile(files[0]);
+    }
+  });
+
+  photoInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      handleFile(e.target.files[0]);
+    }
+  });
+
+  async function handleFile(file) {
+    if (!file.type.startsWith('image/')) {
+      alert('Alleen afbeeldingen zijn toegestaan');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('photo', file);
+
+    loadingIndicator.style.display = 'block';
+    resultContainer.style.display = 'none';
+    uploadArea.style.pointerEvents = 'none';
+    uploadArea.style.opacity = '0.5';
+
+    try {
+      const response = await fetch('/Upload/Analyze', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        showError(data.error);
+      } else if (data.success) {
+        showResult(data.location, data.metadata);
+      } else {
+        showError('Onbekende fout opgetreden');
+      }
+    } catch (error) {
+      showError('Fout bij uploaden: ' + error.message);
+    } finally {
+      loadingIndicator.style.display = 'none';
+      uploadArea.style.pointerEvents = 'auto';
+      uploadArea.style.opacity = '1';
+    }
+  }
+
+  function showError(message) {
+    resultContainer.innerHTML = `
+      <div style="background: hsl(0, 60%, 20%); border: 1px solid hsl(0, 60%, 40%); border-radius: 12px; padding: 24px; color: hsl(0, 60%, 90%);">
+        <h3 style="margin-bottom: 8px;">⚠️ Fout</h3>
+        <p>${message}</p>
+      </div>
+    `;
+    resultContainer.style.display = 'block';
+  }
+
+  function showResult(location, metadata) {
+    const hasCoords = location.latitude && location.longitude;
+    const mapUrl = hasCoords 
+      ? `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}&zoom=15`
+      : null;
+
+    let html = `
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; max-width: 800px; margin: 0 auto;">
+        <h2 style="margin-bottom: 24px; font-size: 28px;">📍 Locatie Resultaat</h2>
+        
+        ${location.locationName ? `<h3 style="font-size: 24px; margin-bottom: 8px; color: var(--primary);">${location.locationName}</h3>` : ''}
+        ${location.city && location.country ? `<p style="color: var(--muted); margin-bottom: 24px;">${location.city}, ${location.country}</p>` : ''}
+        
+        ${hasCoords ? `
+          <div style="margin-bottom: 24px;">
+            <p style="color: var(--muted); margin-bottom: 8px;">GPS Coördinaten:</p>
+            <p style="font-family: monospace; color: var(--fg);">${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}</p>
+            ${mapUrl ? `<a href="${mapUrl}" target="_blank" style="display: inline-block; margin-top: 12px; color: var(--primary); text-decoration: none;">🗺️ Bekijk op kaart →</a>` : ''}
+          </div>
+        ` : ''}
+        
+        ${location.confidence ? `
+          <div style="margin-bottom: 24px;">
+            <p style="color: var(--muted); margin-bottom: 8px;">Betrouwbaarheid:</p>
+            <div style="background: var(--bg); border-radius: 8px; height: 24px; overflow: hidden;">
+              <div style="background: var(--primary); height: 100%; width: ${location.confidence}%; transition: width 0.3s;"></div>
+            </div>
+            <p style="margin-top: 8px; color: var(--muted);">${location.confidence.toFixed(1)}%</p>
+          </div>
+        ` : ''}
+        
+        ${location.explanation ? `
+          <div style="margin-bottom: 24px;">
+            <h4 style="margin-bottom: 12px;">Uitleg:</h4>
+            <p style="color: var(--muted); line-height: 1.7;">${location.explanation}</p>
+          </div>
+        ` : ''}
+        
+        ${location.clues && location.clues.length > 0 ? `
+          <div>
+            <h4 style="margin-bottom: 12px;">Visuele aanwijzingen:</h4>
+            <ul style="color: var(--muted); line-height: 1.7; padding-left: 24px;">
+              ${location.clues.map(clue => `<li>${clue}</li>`).join('')}
+            </ul>
+          </div>
+        ` : ''}
+        
+        ${metadata.latitude && metadata.longitude ? `
+          <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+            <p style="color: var(--muted); font-size: 14px;">ℹ️ GPS coördinaten gevonden in EXIF metadata</p>
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    resultContainer.innerHTML = html;
+    resultContainer.style.display = 'block';
+    
+    // Scroll to result
+    resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+</script>
+}

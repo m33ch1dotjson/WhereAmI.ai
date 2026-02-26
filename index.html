@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoSpy.ai — AI GeoGuesser</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: hsl(220, 20%, 6%);
+      --fg: hsl(210, 20%, 95%);
+      --card: hsl(220, 18%, 10%);
+      --primary: hsl(160, 70%, 50%);
+      --primary-fg: hsl(220, 20%, 6%);
+      --accent: hsl(200, 80%, 55%);
+      --muted: hsl(215, 15%, 55%);
+      --border: hsl(220, 15%, 18%);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    .text-gradient {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      border-bottom: 1px solid hsl(220, 15%, 18%, 0.5);
+      background: hsl(220, 20%, 6%, 0.8);
+      backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; padding: 0 24px;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 600; font-family: 'Space Grotesk'; }
+    .logo-icon { width: 36px; height: 36px; border-radius: 10px; background: hsl(160, 70%, 50%, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary); }
+    .logo span { color: var(--primary); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--fg); }
+    .btn-primary {
+      background: var(--primary); color: var(--primary-fg);
+      border: none; border-radius: 10px; padding: 8px 16px;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      box-shadow: 0 0 40px -10px hsl(160, 70%, 50%, 0.4);
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+      padding-top: 64px; overflow: hidden; text-align: center;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80') center/cover;
+      opacity: 0.25;
+    }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, var(--bg), hsl(220, 20%, 6%, 0.5), var(--bg));
+    }
+    .hero-content { position: relative; z-index: 10; max-width: 800px; padding: 0 24px; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid hsl(160, 70%, 50%, 0.2);
+      background: hsl(160, 70%, 50%, 0.05);
+      color: var(--primary); font-size: 14px;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 32px;
+    }
+
+    .hero h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 700; line-height: 1.1; margin-bottom: 24px; letter-spacing: -0.02em; }
+    .hero p { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto 48px; }
+
+    /* UPLOAD AREA */
+    .upload-area {
+      max-width: 520px; margin: 0 auto;
+      border: 2px dashed var(--border); border-radius: 20px;
+      background: hsl(220, 18%, 10%, 0.5); backdrop-filter: blur(8px);
+      padding: 48px 32px; cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .upload-area:hover { border-color: hsl(160, 70%, 50%, 0.5); background: hsl(220, 18%, 10%, 0.8); }
+    .upload-icon {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: hsl(160, 70%, 50%, 0.1); display: flex;
+      align-items: center; justify-content: center; margin: 0 auto 16px;
+      transition: background 0.3s;
+    }
+    .upload-area:hover .upload-icon { background: hsl(160, 70%, 50%, 0.2); }
+    .upload-icon svg { width: 32px; height: 32px; color: var(--primary); }
+    .upload-area h3 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+    .upload-area .sub { font-size: 14px; color: var(--muted); }
+    .upload-btn {
+      margin-top: 16px; display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary); color: var(--primary-fg);
+      border: none; border-radius: 12px; padding: 12px 24px;
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      box-shadow: 0 0 40px -10px hsl(160, 70%, 50%, 0.4);
+    }
+
+    /* SECTIONS */
+    section { padding: 128px 24px; }
+    .section-title { text-align: center; margin-bottom: 64px; }
+    .section-title h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; margin-bottom: 12px; }
+    .section-title p { color: var(--muted); }
+
+    /* STEPS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; max-width: 1000px; margin: 0 auto; }
+    .step {
+      border: 1px solid var(--border); border-radius: 20px;
+      background: var(--card); padding: 32px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .step:hover { border-color: hsl(160, 70%, 50%, 0.3); box-shadow: 0 0 40px -10px hsl(160, 70%, 50%, 0.15); }
+    .step-num { font-size: 14px; font-weight: 700; }
+    .step-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: hsl(160, 70%, 50%, 0.1); display: flex;
+      align-items: center; justify-content: center;
+      margin: 16px 0; color: var(--primary);
+    }
+    .step h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* FEATURES */
+    .features-section { border-top: 1px solid var(--border); }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto; }
+    .feature {
+      border: 1px solid var(--border); border-radius: 20px;
+      background: hsl(220, 18%, 10%, 0.5); padding: 32px;
+      transition: background 0.3s;
+    }
+    .feature:hover { background: var(--card); }
+    .feature svg { width: 24px; height: 24px; color: var(--accent); margin-bottom: 16px; }
+    .feature h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .feature p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 48px 24px; text-align: center; }
+    footer .logo-sm { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 500; font-family: 'Space Grotesk'; }
+    footer .logo-sm span { color: var(--primary); }
+    footer .copy { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        </div>
+        GeoSpy<span>.ai</span>
+      </div>
+      <div class="nav-links">
+        <a href="#how">Hoe het werkt</a>
+        <a href="#features">Features</a>
+        <button class="btn-primary">Probeer nu</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="badge">⚡ Aangedreven door AI</div>
+      <h1>Upload een foto.<br><span class="text-gradient">Ontdek de locatie.</span></h1>
+      <p>Onze AI analyseert je foto en bepaalt waar ter wereld deze is genomen. Van straatbeelden tot landschappen — wij vinden het.</p>
+
+      <div class="upload-area">
+        <div class="upload-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Sleep je foto hierheen</h3>
+        <p class="sub">of klik om te uploaden • JPG, PNG, WebP</p>
+        <button class="upload-btn">Foto uploaden →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-title">
+      <h2>Hoe het werkt</h2>
+      <p>Drie simpele stappen naar de locatie</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num text-gradient">01</div>
+        <div class="step-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>Upload</h3>
+        <p>Upload een foto van een willekeurige plek op aarde.</p>
+      </div>
+      <div class="step">
+        <div class="step-num text-gradient">02</div>
+        <div class="step-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>AI Analyse</h3>
+        <p>Onze AI analyseert landschap, gebouwen, tekens en meer.</p>
+      </div>
+      <div class="step">
+        <div class="step-num text-gradient">03</div>
+        <div class="step-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Locatie</h3>
+        <p>Krijg de geschatte locatie met uitleg op de kaart.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features-section">
+    <div class="section-title">
+      <h2>Waarom <span class="text-gradient">GeoSpy.ai</span>?</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+        <h3>Nauwkeurige locatiebepaling</h3>
+        <p>Geavanceerde beeldherkenning analyseert honderden visuele aanwijzingen.</p>
+      </div>
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <h3>Razendsnel</h3>
+        <p>Resultaat binnen seconden dankzij geoptimaliseerde AI-modellen.</p>
+      </div>
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <h3>Wereldwijd bereik</h3>
+        <p>Van Tokyo tot Tilburg — onze AI kent elke hoek van de wereld.</p>
+      </div>
+      <div class="feature">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+        <h3>Slimme uitleg</h3>
+        <p>Niet alleen waar, maar ook waarom de AI denkt dat het daar is.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+      GeoSpy<span>.ai</span>
+    </div>
+    <p class="copy">© 2026 GeoSpy.ai — AI-aangedreven locatiebepaling</p>
+  </footer>
+
+</body>
+</html>
