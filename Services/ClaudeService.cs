@@ -131,7 +131,6 @@ Antwoord in JSON formaat:
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var apiUrl = _configuration["ClaudeApi:ApiUrl"] ?? "https://api.anthropic.com/v1/messages";
             
-            var apiKey = _configuration["ClaudeApi:ApiKey"];
             var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
             {
                 Content = content
